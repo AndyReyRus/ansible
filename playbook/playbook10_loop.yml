@@ -1,0 +1,17 @@
+---
+
+- name: Loops playbook
+  hosts: ungrouped
+  become: yes
+
+  tasks:
+
+  - name: Say Hallo to All
+    debug:
+      msg: "Hello {{ item }}"
+    loop:
+      - Vasya
+      - Petya
+      - Olya
+      - Masha
+      - Lesha

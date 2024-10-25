@@ -1,0 +1,50 @@
+---
+
+# tasks file for deploy_apache2_web
+
+- name: Check and Print Linux Version
+  debug:
+    var: ansible_os_family
+
+- block: #========================BLOCK DEBIAN=============================================
+
+    - name: Install Apache Web Server for Ubuntu
+      apt:
+        name: apache2
+        state: latest
+
+    - name: Start Apache and Enable on boot for Debian
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+  when: ansible_os_family == "Debian"
+
+- block: #========================BLOCK REDHAT=============================================
+
+    - name: Install Apache Web Server for RedHat
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Start Apache and Enable on boot for RedHat
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+  when: ansible_os_family == "RedHat"
+
+- name: Generate index.j2 file
+  template:
+    src: index.j2
+    dest: "{{ destin_folder }}/index.html"
+    mode: '0555'
+
+  notify:
+    - Restart Apache Debian
+    - Restart Apache RedHat
+
+
+

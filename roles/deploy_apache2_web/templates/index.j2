@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            animation: fadeIn 2s ease-in-out 0.5s forwards;
+        }
+        .skills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .skill {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            width: 150px;
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+        .skill:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.5);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .button {
+            display: block; /* Изменено на block для центрирования */
+            width: 6cm; /* Установлено фиксированное значение ширины */
+            height: 1cm; /* Установлено фиксированное значение высоты */
+            padding: 0; /* Убираем внутренние отступы */
+            margin: 20px auto; /* Центрируем кнопку по горизонтали и добавляем отступ сверху */
+            background-color: #ff6f61;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            line-height: 1cm; /* Центрируем текст по вертикали */
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .button:hover {
+            background-color: #ff4c3b;
+            transform: scale(1.05);
+            box-shadow: 0px 4px 20px rgba(255,255,255,0.5);
+        }
+        #contact {
+            display: none; /* Скрываем секцию с контактами по умолчанию */
+            margin-top: 20px; 
+            padding-top: 20px; 
+            background-color: rgba(255,255,255,0.1); 
+            border-radius: 10px; 
+        }
+        footer {
+          position:absolute; 
+          bottom:-10px; 
+          width:100%; 
+          color:#fff; 
+          font-size:.8em; 
+          padding-bottom:.5em; 
+        }
+        .weather-widget {
+          position: absolute; 
+          top: 20px; 
+          right: 20px; 
+          background-color: rgba(255,255,255,0.2); 
+          border-radius: 10px; 
+          padding: 10px; 
+          color:black; 
+          font-size:.9em; 
+          z-index:1000; /* Чтобы виджет был поверх остальных элементов */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="weather-widget" id="weather-widget">
+      Загружается погода...
+    </div>
+
+    <h1>Привет! Меня зовут Андрей. Я Начинающий DevOps Инженер.</h1>
+    <p>Я увлечен DevOps и стремлюсь создавать эффективные и надежные системы!</p>
+
+    <div class="skills">
+        <div class="skill">Linux</div>
+        <div class="skill">Docker</div>
+        <div class="skill">Ansible</div>
+        <div class="skill">Git & GitHub</div>
+        <div class="skill">GitLab & GitLab CI</div>
+        <div class="skill">Jenkins (в процессе изучения)</div>
+        <div class="skill">Prometheus + Grafana</div>
+        <div class="skill">Zabbix</div>
+    </div>
+
+    <a href="#" class="button" onclick="toggleContact()">Связаться со мной</a>
+
+    <section id="contact">
+        <h2>Контактная информация</h2>
+        <p>Email:<br>9999999@mail.ru</p>
+        <p>Телефон:<br>+7(999)099-99-99</p>
+    </section>
+
+    <footer>
+      <p>©2024 Все права защищены.</p>
+    </footer>
+
+    <script>
+      function toggleContact() {
+          const contactSection = document.getElementById('contact');
+          if (contactSection.style.display === 'none' || contactSection.style.display === '') {
+              contactSection.style.display = 'block';
+          } else {
+              contactSection.style.display = 'none';
+          }
+      }
+
+      // Функция для получения погоды
+      async function getWeather() {
+          const city = 'Москва'; // Устанавливаем фиксированное название города
+          const weatherApiKey = 'f27d3de18a867871dcf4146a57d79a2d'; // Ваш API ключ OpenWeatherMap
+          const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=metric&lang=ru`;
+
+          try {
+              const weatherResponse = await fetch(weatherUrl);
+              const weatherData = await weatherResponse.json();
+
+              // Обработка данных о погоде
+              if (weatherResponse.ok) {
+                  const weatherWidget = document.getElementById('weather-widget');
+                  weatherWidget.innerHTML = `Погода в ${city}: ${weatherData.weather[0].description}, Температура:${weatherData.main.temp}°C`;
+              } else {
+                  console.error('Ошибка получения данных о погоде:', weatherData);
+                  document.getElementById('weather-widget').innerHTML = 'Ошибка получения данных о погоде';
+              }
+          } catch (error) {
+              console.error('Ошибка при выполнении запроса:', error);
+              document.getElementById('weather-widget').innerHTML = 'Ошибка получения данных о погоде';
+          }
+      }
+
+      // Вызов функции для получения погоды
+      getWeather();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+192.168.1.150
+
+[STAGING_SERVER_WEB]
+ar4sv-nuxt1   ansible_host=192.168.1.151  owner=Vasya
+
+[PROD_SERVER_WEB]
+ar4sv-nuxt2   ansible_host=192.168.1.152  owner=Petya
+
+[STAGING_SERVER_DB]
+ar4sv-nuxt3   ansible_host=192.168.1.153  owner=Kolya
