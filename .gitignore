@@ -1,3 +1,5 @@
 /group_vars/ungrouped
+/roles/deploy_apache2_web/templates/index2.j2
+/roles/deploy_apache2_web/templates/index3.j2
 /web/my_html2
 hosts.txt
